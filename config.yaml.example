@@ -1,0 +1,32 @@
+# Copyright 2024 Google LLC. This software is provided as-is, without warranty
+# or representation for any use or purpose. Your use of it is subject to your
+# agreement with Google.
+
+# GCP project ID.
+project: pnallamotu-test
+# GCP region.
+region: us-central1
+
+# Youtube API key.
+api_key:
+
+# Flask variables.
+PORT: 8080
+HOST: 0.0.0.0
+
+# Enterprise Search.
+es_search_location: global
+es_search_data_store_id: albertsons_1721868232446
+es_search_serving_config_id: default_config
+
+# Vector search.
+vector_search_id: 5849907635117096960
+vector_search_endpoint_name: sme_idx
+
+# Datastore.
+query_datastore_id: sme-query-intents
+recipes_datastore_id: sme-saved-recipes
+
+
+# GCS.
+images_bucket: albertsons-sme-images

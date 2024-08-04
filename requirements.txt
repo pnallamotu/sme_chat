@@ -1,0 +1,15 @@
+asyncio==3.4.3
+fastapi==0.112.0
+grpcio==1.64.1
+google-cloud-aiplatform==1.56.0
+google-cloud-bigquery==3.25.0
+google-cloud-datastore==2.19.0
+google-cloud-discoveryengine==0.11.13
+gunicorn==22.0.0
+langchain==0.2.11
+langgraph==0.1.14
+pandas==2.2.2
+langchain-google-community==1.0.7
+pydantic==2.7.4
+pylint==3.2.3
+PyYAML==6.0.1
