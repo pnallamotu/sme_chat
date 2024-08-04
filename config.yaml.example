@@ -24,9 +24,4 @@ vector_search_id: 5849907635117096960
 vector_search_endpoint_name: sme_idx
 
 # Datastore.
-query_datastore_id: sme-query-intents
 recipes_datastore_id: sme-saved-recipes
-
-
-# GCS.
-images_bucket: albertsons-sme-images
