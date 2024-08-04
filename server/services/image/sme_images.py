@@ -17,12 +17,22 @@ class SMEImages:
             image_contents=image_contents)
 
     async def process_image(self):
+        """Process image.
+
+        Classify, extract, and construct query
+        based on image contents to an intent for SME.
+        """
+        # TODO (pnallamotu): Handle case if query is none
+        # in API route.
+        query = None
+
         # First classify image.
         image_type = await self.classify_image_type()
         if image_type == "grocery_list":
             # Prompt to extract image grocery list.
             prompt = prompts.image_grocery_list_prompt
-            grocery_list = await self.image_processor.extract_image_contents(prompt)
+            grocery_list = await self.image_processor.extract_image_contents(
+                prompt)
 
             # Convert extracted contents to query.
             # Static query to fit to product recommendations intent.
@@ -30,7 +40,8 @@ class SMEImages:
         elif image_type == "meal":
             # Prompt to extract image recipe name.
             prompt = prompts.image_recipe_prompt
-            recipe_name = await self.image_processor.extract_image_contents(prompt)
+            recipe_name = await self.image_processor.extract_image_contents(
+                prompt)
 
             # Convert extracted contents to query.
             # Static query to fit to recipe recommendations intent.

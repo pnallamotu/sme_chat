@@ -4,13 +4,11 @@
 """API Routes for chat."""
 
 import base64
-import os
 
-from fastapi import APIRouter, File, Form, Request, UploadFile
+from fastapi import APIRouter, File, Request, UploadFile
 from fastapi.responses import JSONResponse
 from vertexai.generative_models import Part
 
-from server.common import utils
 from server.config.logging import logger
 from server.models import chat
 from server.state import message_history
@@ -50,7 +48,7 @@ async def send_image(image: UploadFile = File(...)):
     try:
         logger.info("Image input to chat")
         if not image:
-            raise
+            raise Exception
 
         contents = await image.read()
 
@@ -61,8 +59,9 @@ async def send_image(image: UploadFile = File(...)):
             mime_type=image.content_type
         )
 
-        # Convert image to query matching intents. 
-        user_query = await sme_images.SMEImages(image_contents=image_content).process_image()
+        # Convert image to query matching intents.
+        user_query = await sme_images.SMEImages(
+            image_contents=image_content).process_image()
 
         result = await multi_turn.MultiTurn(
             query=user_query,

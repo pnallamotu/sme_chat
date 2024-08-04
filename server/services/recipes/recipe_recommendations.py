@@ -37,7 +37,8 @@ class RecipeRecommendations:
         """
         # Get recommended recipes & grocery list.
         recipe_names, product_list =  await self.get_recipe_recommendations()
-        recipes, products = await self.run_in_parallel(recipe_names, product_list)
+        recipes, products = await self.run_in_parallel(
+            recipe_names, product_list)
         return recipes, products
 
     async def run_in_parallel(self, recipe_names, product_list):
@@ -47,20 +48,25 @@ class RecipeRecommendations:
 
             def get_recipes_data_sync():
                 return asyncio.run_coroutine_threadsafe(
-                    self.get_recipes_data(recipe_names=recipe_names, product_list=product_list),
+                    self.get_recipes_data(
+                        recipe_names=recipe_names,
+                        product_list=product_list
+                    ),
                     loop
                 ).result()
 
             def get_products_sync():
                 return asyncio.run_coroutine_threadsafe(
-                    diy_recommendation_product_list.DIYProductList(product_list=product_list).get_products(),
+                    diy_recommendation_product_list.DIYProductList(
+                        product_list=product_list).get_products(),
                     loop
                 ).result()
 
             recipes_task = loop.run_in_executor(executor, get_recipes_data_sync)
             products_task = loop.run_in_executor(executor, get_products_sync)
 
-            recipes, products = await asyncio.gather(recipes_task, products_task)
+            recipes, products = await asyncio.gather(
+                recipes_task, products_task)
         return recipes, products
 
     async def get_recipes_data(
@@ -85,7 +91,10 @@ class RecipeRecommendations:
         with ThreadPoolExecutor(max_workers=4) as executor:
             def run_async_get_recipe_data(recipe_name, product_list):
                 async def _get_recipe_data():
-                    recipe_data = recipe.Recipe(recipe=recipe_name, product_list=product_list)
+                    recipe_data = recipe.Recipe(
+                        recipe=recipe_name,
+                        product_list=product_list
+                    )
                     return await recipe_data.get_recipe_data()
                 loop = asyncio.new_event_loop()
                 asyncio.set_event_loop(loop)
@@ -95,7 +104,12 @@ class RecipeRecommendations:
 
             loop = asyncio.get_running_loop()
             tasks = [
-                loop.run_in_executor(executor, run_async_get_recipe_data, recipe_name, product_list)
+                loop.run_in_executor(
+                    executor,
+                    run_async_get_recipe_data,
+                    recipe_name,
+                    product_list
+                )
                 for recipe_name in recipe_names
             ]
 

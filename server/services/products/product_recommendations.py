@@ -8,7 +8,6 @@ from typing import Any, Dict, List
 from server.common import gemini
 from server.common import prompts
 from server.common import utils
-from server.config.logging import logger
 from server.services.products import product_search
 
 
@@ -43,10 +42,10 @@ class ProductRecommendations:
         # For each product type recommended
         # make product search query to catalog.
         product_recommendations = await utils.make_parallel_calls(
-            items=product_recs_generated, async_processing_func=product_search.get_individual_product_type)
+            items=product_recs_generated,
+            async_processing_func=product_search.get_individual_product_type
+        )
         return product_recommendations
-
-
 
     async def get_product_types_from_query(self) -> List[str]:
         """Generate list of product types from query.

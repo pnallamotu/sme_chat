@@ -51,7 +51,9 @@ class FollowUpClassifier:
             return False
         except Exception as e:
             logger.error(
-                f"Error classifying whether query is follow up, defaulting to False")
+                f"Error classifying whether query is follow up, "
+                f"defaulting to False: {e}"
+            )
             return False
 
     async def summarize_follow_up_query(self) -> str:

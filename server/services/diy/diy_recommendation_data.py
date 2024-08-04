@@ -81,6 +81,8 @@ def get_youtube_url(query: str) -> str:
     Returns:
         First found youtube url.
     """
+    # TODO: Uncomment when showing to customer
+    # or for production. Commented for quota reasons.
     try:
         return "https://www.youtube.com/"
         # api_key = os.getenv("api_key")

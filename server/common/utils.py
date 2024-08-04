@@ -5,7 +5,6 @@
 
 import multiprocessing
 import os
-import time
 from typing import Any, List
 import yaml
 
@@ -76,7 +75,12 @@ async def make_parallel_calls(
     return results
 
 
-def process_item(item, results_queue, async_processing_function, extra_args=None) -> None:
+def process_item(
+    item,
+    results_queue,
+    async_processing_function,
+    extra_args=None
+) -> None:
     """Process item for parallelization.
 
     Args:
@@ -87,7 +91,9 @@ def process_item(item, results_queue, async_processing_function, extra_args=None
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     if extra_args:
-        result = loop.run_until_complete(async_processing_function(item, extra_args))
+        result = loop.run_until_complete(
+            async_processing_function(item, extra_args)
+        )
     else:
         result = loop.run_until_complete(async_processing_function(item))
     results_queue.put(result)

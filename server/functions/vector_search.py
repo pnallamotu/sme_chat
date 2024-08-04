@@ -73,15 +73,18 @@ class VectorSearchManager:
             query: The query to embed.
             task: The task for which the embeddings will be used.
             model_name: The name of the pre-trained text embedding model to use.
-            dimensionality: The desired dimensionality of the embeddings. If None, the
-                default dimensionality of the model is used.
+            dimensionality: The desired dimensionality of the embeddings.
+                If None, the default dimensionality of the model is used.
 
         Returns:
-            A list of lists, where each inner list represents the emebddings of a text.
+            A list of lists, where each inner list
+                represents the emebddings of a text.
         """
         model = TextEmbeddingModel.from_pretrained(model_name)
         inputs = [TextEmbeddingInput(query, task)]
-        kwargs = dict(output_dimensionality=dimensionality) if dimensionality else {}
+        kwargs = dict(
+            output_dimensionality=dimensionality
+        ) if dimensionality else {}
         result = model.get_embeddings(inputs, **kwargs)
         return [e.values for e in result]
 

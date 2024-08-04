@@ -36,7 +36,7 @@ class ProductSearch:
         E.g: "Apples" or "Hammer".
 
         Returns:
-            Dictionary of summarized title of product names, and list of products.
+            Dictionary of summarized title from product names.
                 E.g. {
                         "title": "Apples",
                         "product_names": [{product_1_dict}, {product_2_dict}]
@@ -74,7 +74,10 @@ class ProductSearch:
         products = parse_es_result(response=matched_products)
         return products
 
-    async def generate_products_title(self, products: List[Dict[str, Any]]) -> str:
+    async def generate_products_title(
+        self,
+        products: List[Dict[str, Any]]
+    ) -> str:
         """Generate a title for the products returned from a search.
 
         Args:
@@ -126,7 +129,7 @@ def parse_es_result(response) -> List[Dict[str, Any]]:
     """
     # List of products from vertex search.
     products = []
-    
+
     # TODO: edit to match to customer's es result payload.
     for resp in response.results:
         # Parse product data from ES results.
@@ -147,9 +150,10 @@ def parse_es_result(response) -> List[Dict[str, Any]]:
             # Extract sku from url.
             sku = parse_product_sku(url)
 
-            # NOTE: Vertex search for Walmart & Albertson's did not return price in the response.
-            # Thus, we return default price of $5.00 until integration with domain verificaiton
-            # or customer's price data.
+            # NOTE: Vertex search for Walmart & Albertson's did not return price
+            # in the response. Thus, we return default price of $5.00
+            # until integration with domain verificaiton or customer's
+            # price data.
 
             # Product title, price, url, sku, and image.
             product_info = {

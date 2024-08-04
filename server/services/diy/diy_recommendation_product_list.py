@@ -34,6 +34,8 @@ class DIYProductList:
         # For each product needed
         # make product search query to catalog.
         products = await utils.make_parallel_calls(
-            items=self.product_list, async_processing_func=product_search.get_individual_product_type)
+            items=self.product_list,
+            async_processing_func=product_search.get_individual_product_type
+        )
 
         return products

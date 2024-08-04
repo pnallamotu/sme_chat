@@ -44,16 +44,18 @@ class SavedRecipes:
         ingredients = recipe.get("ingredients")
 
         recipe_products = await utils.make_parallel_calls(
-            items=ingredients, async_processing_func=product_search.get_individual_product_type)
+            items=ingredients,
+            async_processing_func=product_search.get_individual_product_type
+        )
 
         # Update recipe with grocery list.
         recipe.update({
             "grocery_list": recipe_products
         })
-        
+
         recipe_id = recipe.get("id")
         self.datastore_manager.save_element(
-            id=recipe_id,
+            element_id=recipe_id,
             kind="Recipe",
             elem_key="recipe",
             element=recipe
@@ -62,6 +64,6 @@ class SavedRecipes:
     def unsave_recipe(self, recipe_id: int):
         """Unsave a recipe."""
         self.datastore_manager.delete_element(
-            id=recipe_id,
+            element_id=recipe_id,
             kind="Recipe"
         )

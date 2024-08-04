@@ -33,7 +33,8 @@ class DIYRecommendations:
         """Get DIY recommendations.
 
         Returns:
-            Dictionary of DIY ideas and prodcuts (grocery list, home improvement ideas).
+            Dictionary of DIY ideas and prodcuts.
+            E.g: grocery list, home improvement ideas, etc.
                 - diy_name is a list of each diy name.
                 - products is the product list needed for all the diy ideas.
         """

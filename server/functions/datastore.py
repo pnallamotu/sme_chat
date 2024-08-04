@@ -46,7 +46,7 @@ class DataStoreManager:
         query.order = ["created"]
 
         results = list(query.fetch())
-        
+
         # For FastAPI serialization.
         for result in results:
             result["created"] = result["created"].isoformat()
@@ -55,7 +55,7 @@ class DataStoreManager:
 
     def save_element(
         self,
-        id: Union[str, int],
+        element_id: Union[str, int],
         kind: str,
         elem_key: str,
         element: Dict[str, Any],
@@ -65,12 +65,12 @@ class DataStoreManager:
         Args:
             id: Unique id of element.
             kind: Datastore kind to save to.
-            elem_key: Key of element to save as (e.g product, recipe, manual, etc.).
+            elem_key: Key of element to save as (e.g product, recipe, etc.).
             element: Element to upload to datastore.
         """
         try:
             # Create key for element to upload.
-            key = self.datastore_client.key(kind, id)
+            key = self.datastore_client.key(kind, element_id)
 
             task = datastore.Entity(key)
             task.update(
@@ -86,12 +86,12 @@ class DataStoreManager:
 
     def delete_element(
         self,
-        id: Union[str, int],
+        element_id: Union[str, int],
         kind: str,
     ):
         """Delete element from datastore."""
         try:
-            key = self.datastore_client.key(kind, id)
+            key = self.datastore_client.key(kind, element_id)
             self.datastore_client.delete(key)
         except Exception as e:
             logger.error(f"Error deleting recipe: {e}")

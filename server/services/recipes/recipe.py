@@ -20,7 +20,7 @@ class Recipe:
 
         Generates additional metadata for each recipe.
         This includes nutritional information, ingredients, and instrucitons.
-        Grounds the ingredients generated based on the grocery list original generated.
+        Grounds the ingredients generated based on the grocery list generated.
         The product list is used to ground the recipe ingredients generated
         into what will be mapped to the product catalog.
 

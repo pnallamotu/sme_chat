@@ -4,9 +4,8 @@
 """Multi Turn."""
 
 import traceback
-from typing import Any, Dict, List
+from typing import Any, Dict
 
-from server.common import prompts
 from server.config.logging import logger
 from server.functions import detect_follow_up
 from server.turns import turn
@@ -46,7 +45,7 @@ class MultiTurn:
 
             # Summarize follow up query using history.
             if is_follow_up:
-                self.query = await self.follow_up_classifier.summarize_follow_up_query()
+                self.query = await self.follow_up_classifier.summarize_follow_up_query() # pylint: disable=line-too-long
                 logger.info(f"Summarized follow up query: {self.query}")
 
             result = await turn.Turn().process(query=self.query)
@@ -54,10 +53,12 @@ class MultiTurn:
             return result
         except Exception as e:
             logger.error(
-                f"Error processing query: {self.query}. Defaulting to default payload. {e}")
+                f"Error processing query: {self.query}."
+                f"Defaulting to default payload. {e}"
+            )
             traceback.print_exc()
             return {
-                "msg": "Sorry I could not process that. Please try re-phrasing your query.",
+                "msg": "Sorry I could not process that. Please try re-phrasing your query.", # pylint: disable=line-too-long
                 "products": [],
                 "recipes": [],
                 "intent": None

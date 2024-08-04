@@ -3,8 +3,6 @@
 # agreement with Google.
 """Single Turn."""
 
-import traceback
-
 from server.common import prompts
 from server.config.logging import logger
 from server.functions import detect_intent
@@ -44,4 +42,4 @@ class Turn:
                 intent=intent
             ).process()
 
-        return result
+            return result

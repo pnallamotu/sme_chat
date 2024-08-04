@@ -65,7 +65,7 @@ class SmeRunner:
 
         elif self.intent == "recipes":
             logger.info("In recipes intent.")
-            recipes, products = await recipe_recommendations.RecipeRecommendations(
+            recipes, products = await recipe_recommendations.RecipeRecommendations( # pylint: disable=line-too-long
                 query=self.query
             ).get_recommendations()
 
@@ -109,8 +109,12 @@ class SmeRunner:
             query=self.query,
             result=result_for_prompt
         )
-        
-        msg = await self.model.generate_response(prompt, max_output_tokens=200, temperature=0.2)
+
+        msg = await self.model.generate_response(
+            prompt,
+            max_output_tokens=200,
+            temperature=0.2
+        )
         return msg
 
     def get_product_names(self, products: List[Dict[str, Any]]) -> List[str]:
@@ -126,7 +130,10 @@ class SmeRunner:
         """
         product_names = []
         for category in products:
-            products_in_category = [product["title"] for product in category.get("product_names")]
+            products_in_category = [
+                product["title"]
+                for product in category.get("product_names")
+            ]
             product_names.extend(products_in_category)
         return product_names
 

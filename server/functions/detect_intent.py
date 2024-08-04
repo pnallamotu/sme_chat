@@ -90,3 +90,5 @@ class IntentClassifier:
         except Exception as e:
             logger.error(
                 f"Error checking whether user query: {query} is malicious: {e}")
+            # Defaulting True for gaurdrail
+            return True
