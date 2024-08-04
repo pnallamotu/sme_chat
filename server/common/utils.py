@@ -5,10 +5,12 @@
 
 import multiprocessing
 import os
+import time
 from typing import Any, List
 import yaml
 
 import asyncio
+from google.cloud import storage
 
 from server.config.logging import logger
 
@@ -35,6 +37,45 @@ def load_config_to_env(config_file: str) -> None:
         logger.error(
             f"Error: Invalid YAML format in '{config_file}': {e}"
         )
+
+
+def get_gcs_mime_type(gcs_uri: str) -> str:
+    """Return mime type for GCS file"""
+    storage_client = storage.Client()
+    bucket_name, object_name = gcs_uri[5:].split("/", 1)
+
+    # Get the blob (object) and its metadata.
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(object_name)
+    blob.reload()
+    return blob.content_type
+
+
+def upload_file_to_gcs(
+    file: str,
+    bucket_name: str
+) -> str:
+    """Upload a file to GCS.
+
+    Args:
+        file: File uploaded.
+        bucket_name: Bucket to upload file to.
+
+    Returns:
+        gcs_uri of uploaded file.
+    """
+    filename =  f"{time.strftime('%Y%m%d_%H%M%S')}_"\
+      f"{file.filename}"
+
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(bucket_name)
+
+    blob = bucket.blob(filename)
+    blob.upload_from_string(file.read(), content_type=file.content_type)
+
+    gcs_uri = f"gs://{bucket_name}/{filename}"
+    return gcs_uri
+
 
 
 async def make_parallel_calls(

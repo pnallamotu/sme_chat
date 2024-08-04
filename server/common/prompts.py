@@ -3,6 +3,31 @@
 # agreement with Google.
 """Prompt templates."""
 
+# FOLLOW UP CLASSIFICATION PROMPT.
+follow_up_classifier_prompt = """
+Your task is to use the user's last query and the result, and their current query to determine if they are asking a follow up question.
+If they are asking a follow up question return a boolean of True, else return False.
+You should closely analyze whether their current query asks for a modification or change from their last response from their last query.
+
+<USER_HISTORY>
+{history}
+</USER_HISTORY>
+
+current_user_query: {query}
+"""
+
+
+# RECRAFT FOLLOW-UP QUERY.
+multi_turn_query_system_prompt = """
+Your task is to use the user's last query and the response to recraft their current follow-up query to represent a single query that fulfills their current request.
+
+<USER_HISTORY>
+{history}
+</USER_HISTORY>
+
+current_user_query: {query}
+"""
+
 
 # INTENT CLASSIFICATION PROMPT.
 intent_classifer_system_prompt = """
@@ -179,4 +204,29 @@ Generate each recipe's information following this JSON schema:
 <RECIPE_NAME>
 {recipe}
 </RECIPE_NAME>
+"""
+
+
+# IMAGE PROCESSING PROMPTS>
+image_classification_prompt = """
+Is this image a grocery list or meal? Output your answer as only either "meal" or "grocery_list"
+"""
+
+## Image grocery list.
+image_grocery_list_prompt = """
+What are the names of the products or ingredients in this image?
+Generate the output following this JSON schema:
+
+<OUTPUT_SCHEMA>
+[List of ingredients or product types in the image]
+</OUTPUT_SCHEMA>
+"""
+
+## Image recipe.
+image_recipe_prompt = """
+What is are recipe names for this image?
+
+<OUTPUT_SCHEMA>
+[Recipe names this image could be]
+</OUTPUT_SCHEMA>
 """

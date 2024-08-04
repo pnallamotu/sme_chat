@@ -23,35 +23,25 @@ class Turn:
         self
     ):
         """Init a turn."""
-        # Intent classifier,
+        # Intent classifier.
         self.intent_classifer = detect_intent.IntentClassifier(
             system_context=prompts.intent_classifer_system_prompt)
 
     async def process(self, query: str):
         """Runner for turn orchestration."""
-        try:
-            # Check whether query is malicious.
-            is_malicious = self.intent_classifer.check_malicious_query(query)
+        # Check whether query is malicious.
+        is_malicious = self.intent_classifer.check_malicious_query(query)
 
-            # Only process queries that are not malicious.
-            # Otherwise return default result.
-            if not is_malicious:
-                intent = await self.intent_classifer.classify_intent(query)
-                logger.info(f"Intent for query: {intent}")
+        # Only process queries that are not malicious.
+        # Otherwise return default result.
+        if not is_malicious:
+            intent = await self.intent_classifer.classify_intent(query)
+            logger.info(f"Intent for query: {intent}")
 
-                # Process results based on intent & query.
-                result = await sme.SmeRunner(
-                    query=query,
-                    intent=intent
-                ).process()
+            # Process results based on intent & query.
+            result = await sme.SmeRunner(
+                query=query,
+                intent=intent
+            ).process()
 
-            return result
-        except Exception as e:
-            logger.error(
-                f"Error processing turn for {query}. Defaulting to default payload. {e}")
-            return {
-                "msg": "Sorry I could not process that. Please try re-phrasing your query.",
-                "products": [],
-                "recipes": [],
-                "intent": None
-            }
+        return result

@@ -13,3 +13,4 @@ langchain-google-community==1.0.7
 pydantic==2.7.4
 pylint==3.2.3
 PyYAML==6.0.1
+uvicorn==0.30.5
